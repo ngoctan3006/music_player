@@ -82,10 +82,10 @@ const app = {
             image: './assets/img/10.jpg'
         }
     ],
-    // setConfig: function(key, value) {
-    //     this.config[key] = value;
-    //     localStorage.setItem(PLAYER_STORAGE_KEY, JSON.stringify(this.config));
-    // },
+    setConfig: function(key, value) {
+        this.config[key] = value;
+        localStorage.setItem(PLAYER_STORAGE_KEY, JSON.stringify(this.config));
+    },
     render: function() {
         const htmls = this.songs.map((song, index) => {
             return `
@@ -179,7 +179,7 @@ const app = {
         // Randon
         randomBtn.onclick = function() {
             _this.isRandom = !_this.isRandom;
-            // _this.setConfig('isRandom', _this.isRandom);
+            _this.setConfig('isRandom', _this.isRandom);
             randomBtn.classList.toggle('active', _this.isRandom);
         }
 
@@ -193,7 +193,7 @@ const app = {
         // Repeat
         repeatBtn.onclick = function() {
             _this.isRepeat = !_this.isRepeat;
-            // _this.setConfig('isRepeat', _this.isRepeat);
+            _this.setConfig('isRepeat', _this.isRepeat);
             repeatBtn.classList.toggle('active', _this.isRepeat);
         }
 
@@ -216,6 +216,10 @@ const app = {
         header.textContent = this.currentSong.name;
         cdThumb.style.backgroundImage = `url('${this.currentSong.image}')`;
         audio.src = this.currentSong.path;
+    },
+    loadConfig: function() {
+        this.isRandom = this.config.isRandom;
+        this.isRepeat = this.config.isRepeat;
     },
     nextSong: function() {
         if(this.currentIndex === this.songs.length - 1)
@@ -246,10 +250,19 @@ const app = {
         }, 200);
     },
     start: function() {
+        // Gán cấu hình từ config vào ứng dụng
+        this.loadConfig();
+        // Định nghĩa các thuộc tính cho object
         this.defineProperties();
+        // Lắng nghe/ xử lý các sự kiện (DOM events)
         this.handleEvent();
+        // Tải thông tin bài hát đầu tiên vào UI khi chạy ứng dụng)
         this.loadCurrentSong();
+        // Render playlist
         this.render();
+        // Hiển thị trạng thái ban đầu của button randon và repeat
+        randomBtn.classList.toggle('active', _this.isRandom);
+        repeatBtn.classList.toggle('active', _this.isRepeat);
     }
 }
 
