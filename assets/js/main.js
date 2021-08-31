@@ -261,8 +261,8 @@ const app = {
         // Render playlist
         this.render();
         // Hiển thị trạng thái ban đầu của button randon và repeat
-        randomBtn.classList.toggle('active', _this.isRandom);
-        repeatBtn.classList.toggle('active', _this.isRepeat);
+        randomBtn.classList.toggle('active', this.isRandom);
+        repeatBtn.classList.toggle('active', this.isRepeat);
     }
 }
 
